@@ -22,22 +22,44 @@ class Home extends BaseController
 
 			$data = json_decode(file_get_contents("php://input"));
 
-			$contact_name = filter_var($data->name, FILTER_SANITIZE_STRING);
-			$contact_email = filter_var($data->email, FILTER_SANITIZE_EMAIL);
-			$contact_message = filter_var($data->message, FILTER_SANITIZE_STRING);
+			if(!empty($data->recaptcha))
+			{
+					$secret = '6LdqKgMcAAAAAImp2W0owpLXtTPT1kIRX_9u3r5a';
+					$verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$data->recaptcha);
+					$responseData = json_decode($verifyResponse);
+					if($responseData->success)
+					{
+						$contact_name = filter_var($data->name, FILTER_SANITIZE_STRING);
+						$contact_email = filter_var($data->email, FILTER_SANITIZE_EMAIL);
+						$contact_message = filter_var($data->message, FILTER_SANITIZE_STRING);
 
-			$contact = [
-				'contact_name' => $contact_name,
-				'contact_email' => $contact_email,
-				'contact_message' => $contact_message
-			];
+						$contact = [
+							'contact_name' => $contact_name,
+							'contact_email' => $contact_email,
+							'contact_message' => $contact_message
+						];
 
-			$this->db->table('contact_forms')->insert($contact);
+						$this->db->table('contact_forms')->insert($contact);
 
-			return json_encode('Success');
+						echo json_encode('Success');
+						echo "<br>";
+						echo json_encode("g-recaptcha verified successfully");
+
+					}
+					else
+					{
+						echo json_encode('Failed');
+						echo "<br>";
+						echo json_encode("Some error in verifying g-recaptcha");
+						throw new \CodeIgniter\Exceptions\ConfigException();
+					}
+			}
+
+			
 		}
 		else {
 			return json_encode('Failed');
+			throw new \CodeIgniter\Exceptions\ConfigException();
 		}
 	}
 }
