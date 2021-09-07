@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\CLI\Console;
 use CodeIgniter\HTTP\Response;
 
 class Home extends BaseController
@@ -24,7 +25,7 @@ class Home extends BaseController
 
 			if(!empty($data->recaptcha))
 			{
-					$secret = '6LdqKgMcAAAAAImp2W0owpLXtTPT1kIRX_9u3r5a';
+					$secret = getenv('SECRET_KEY');
 					$verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$data->recaptcha);
 					$responseData = json_decode($verifyResponse);
 					if($responseData->success)
@@ -51,15 +52,14 @@ class Home extends BaseController
 						echo json_encode('Failed');
 						echo "<br>";
 						echo json_encode("Some error in verifying g-recaptcha");
-						throw new \CodeIgniter\Exceptions\ConfigException();
-					}
+						$this->response->setStatusCode(401);					}
 			}
 
 			
 		}
 		else {
-			return json_encode('Failed');
-			throw new \CodeIgniter\Exceptions\ConfigException();
+			echo json_encode('Failed');
+			$this->response->setStatusCode(403);
 		}
 	}
 }
