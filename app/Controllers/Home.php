@@ -52,7 +52,8 @@ class Home extends BaseController
 						echo json_encode('Failed');
 						echo "<br>";
 						echo json_encode("Some error in verifying g-recaptcha");
-						$this->response->setStatusCode(401);					}
+						$this->response->setStatusCode(401);
+					}
 			}
 			else{
 				echo json_encode("recaptcha is missing");
