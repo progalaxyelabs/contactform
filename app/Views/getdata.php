@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div id="id01"></div>
+    <div id="id01">hi working quiet</div>
 
     <script>
     var xhr = new XMLHttpRequest;
