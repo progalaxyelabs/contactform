@@ -36,3 +36,40 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 - [mbstring](http://php.net/manual/en/mbstring.installation.php)
 - [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
 - xml (enabled by default - don't turn it off)
+
+
+## Setup
+1. Clone the project into `/var/www/html/contactform`. 
+
+2. Create a virtual host config for apache server with following config. Restart apache server after enabling this vhost.
+
+        <VirtualHost *:80>
+            ServerName contactform.local
+            DocumentRoot /var/www/html/contactform/public
+
+            <Directory /var/www/html/contactform/public>
+                AllowOverride All
+                Require all granted
+            </Directory>	
+        </VirtualHost>
+
+3. Add an entry in `/etc/hosts` file for routing the url locally
+
+        127.0.0.1    contactform.local
+
+4. Create a database with name `contactform`. 
+
+5. Create a .env file in the project root with following contents. Update the username, password, recaptcha-secret-key as necessary.
+
+        CI_ENVIRONMENT = production
+
+        app.baseURL = 'http://contactform.local'
+
+        database.default.hostname = 'localhost'
+        database.default.database = 'contactform'
+        database.default.username = 'contactformdbusername'
+        database.default.password = 'contactformdbuserpassword'
+
+        SECRET_KEY = 'google-recaptcha-v3-secret-key'
+
+6. Submit `POST` request to `http://contactform.local` from client app with name, email, message, recaptcha fields.
