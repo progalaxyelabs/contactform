@@ -57,7 +57,7 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 
         127.0.0.1    contactform.local
 
-4. Create a database with name `contactform`. 
+4. Using a mysql database client like mysql workbench or phpmyadmin, create a database with name `contactform`. Then, run all the queries in `/var/www/html/contactform/App/Database/Seeds/db.sql` file
 
 5. Create a .env file in the project root with following contents. Update the username, password, recaptcha-secret-key as necessary.
 
