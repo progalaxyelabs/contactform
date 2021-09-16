@@ -7,6 +7,8 @@ use CodeIgniter\HTTP\Response;
 
 class Home extends BaseController
 {
+
+	protected $session = false;
 	public function index()
 	{
 		header("Access-Control-Allow-Origin: *");
@@ -41,7 +43,7 @@ class Home extends BaseController
 						'contact_message' => $contact_message
 					];
 
-					$this->db->table('contact_forms')->insert($contact);
+					//$this->db->table('contact_forms')->insert($contact);
 
 					echo json_encode('Success');
 					echo "<br>";
@@ -61,9 +63,69 @@ class Home extends BaseController
 			$this->response->setStatusCode(403);
 		}
 	}
-	
-	public function get()
+
+	public function signin()
 	{
-		return view('getdata');
+		if (isset($_SESSION['email'])) {
+			return redirect()->to('/home/dashboard');
+		}
+
+		return view('signin');
+	}
+
+	public function signin_submit()
+	{
+		if (isset($_SESSION['email'])) {
+			return redirect()->to('/home/dashboard');
+		}
+
+		$email = filter_input(
+			INPUT_POST,
+			'email',
+			FILTER_SANITIZE_EMAIL
+		);
+		$password = filter_input(
+			INPUT_POST,
+			'password',
+			FILTER_SANITIZE_STRING
+		);
+
+		$sql = 'select admin_password from admin_signin where admin_email = ?;';
+
+		$admin = $this->db->query($sql, [$email])->getRow();
+
+		if (password_verify($password, $admin->admin_password)) {
+			$_SESSION['email'] = $email;
+			return redirect()->to('/home/dashboard');
+		} else {
+			return view('signin', ['signin_error' => 'Incorrect email or password']);
+		}
+	}
+
+	public function dashboard()
+	{
+		if (!isset($_SESSION['email'])) {
+			return redirect()->to('/home/signin');
+		}
+		
+		$data = $this->db->query(
+			"select
+            	contact_form_id,
+				contact_message,
+            	contact_email,
+				contact_name,
+            	created_at,
+            	last_updated_at
+        	from contact_forms;"
+		)->getResult();
+
+		return view('dashboard', ['data' => $data]);
+	}
+
+	public function logout()
+	{
+		unset($_SESSION['email']);		
+		
+		return redirect()->to('/home/signin');
 	}
 }
