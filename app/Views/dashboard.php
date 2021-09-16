@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 
@@ -28,7 +28,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1><?= $page ?></h1>
+                <h1></h1>
                 <div class="pagination justify-content-center">
                     <table style="margin-top:10%;" class="table table-bordered">
                         <thead>
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <a style="text-decoration: none;" class="pagination justify-content-center" href="/home/signin">Logout</a>
+    <a style="text-decoration: none;" class="pagination justify-content-center" href="/home/logout">Logout</a>
 
     
 

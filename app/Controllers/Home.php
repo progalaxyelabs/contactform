@@ -7,8 +7,6 @@ use CodeIgniter\HTTP\Response;
 
 class Home extends BaseController
 {
-
-	protected $session = false;
 	public function index()
 	{
 		header("Access-Control-Allow-Origin: *");
@@ -43,7 +41,7 @@ class Home extends BaseController
 						'contact_message' => $contact_message
 					];
 
-					//$this->db->table('contact_forms')->insert($contact);
+					$this->db->table('contact_forms')->insert($contact);
 
 					echo json_encode('Success');
 					echo "<br>";

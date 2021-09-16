@@ -22,3 +22,4 @@ insert into admin_signin
 (admin_name, admin_email, admin_password)
 values
 ('test', 'admin@test.com', '$2y$10$AJgsl/vT11/VByFGTVCl0uqsP2wNnSoaOEwxcIOn5IO1pDC7CeAkG');
+/* pwd- 123456  */
