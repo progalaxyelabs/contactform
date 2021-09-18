@@ -65,38 +65,41 @@ class Home extends BaseController
 	public function signin()
 	{
 		if (isset($_SESSION['email'])) {
-			return redirect()->to('/home/dashboard');
+			return redirect()->to('/home/dashboard?page=1');
 		}
+		else{
 
 		return view('signin');
+		}
 	}
 
 	public function signin_submit()
 	{
 		if (isset($_SESSION['email'])) {
-			return redirect()->to('/home/dashboard');
+			return redirect()->to('/home/dashboard?page=1');
 		}
+		else{
+			$email = filter_input(
+				INPUT_POST,
+				'email',
+				FILTER_SANITIZE_EMAIL
+			);
+			$password = filter_input(
+				INPUT_POST,
+				'password',
+				FILTER_SANITIZE_STRING
+			);
 
-		$email = filter_input(
-			INPUT_POST,
-			'email',
-			FILTER_SANITIZE_EMAIL
-		);
-		$password = filter_input(
-			INPUT_POST,
-			'password',
-			FILTER_SANITIZE_STRING
-		);
+			$sql = 'select admin_password from admin_signin where admin_email = ?;';
 
-		$sql = 'select admin_password from admin_signin where admin_email = ?;';
+			$admin = $this->db->query($sql, [$email])->getRow();
 
-		$admin = $this->db->query($sql, [$email])->getRow();
-
-		if (password_verify($password, $admin->admin_password)) {
-			$_SESSION['email'] = $email;
-			return redirect()->to('/home/dashboard');
-		} else {
-			return view('signin', ['signin_error' => 'Incorrect email or password']);
+			if (password_verify($password, $admin->admin_password)) {
+				$_SESSION['email'] = $email;
+				return redirect()->to('/home/dashboard?page=1');
+			} else {
+				return view('signin', ['signin_error' => 'Incorrect email or password']);
+			}
 		}
 	}
 
@@ -105,19 +108,27 @@ class Home extends BaseController
 		if (!isset($_SESSION['email'])) {
 			return redirect()->to('/home/signin');
 		}
-		
-		$data = $this->db->query(
-			"select
-            	contact_form_id,
-				contact_message,
-            	contact_email,
-				contact_name,
-            	created_at,
-            	last_updated_at
-        	from contact_forms;"
-		)->getResult();
+		else{
+			$page = filter_var($_GET['page'],FILTER_SANITIZE_URL);
 
-		return view('dashboard', ['data' => $data]);
+			$data = $this->db->query(
+				"select
+					contact_form_id,
+					contact_message,
+					contact_email,
+					contact_name,
+					created_at,
+					last_updated_at
+				from contact_forms;"
+			)->getResult();
+
+			
+			$from = ceil(($page*10)-10);
+			$from < 0 ? 0 : $from;
+			$page=ceil($page*10);
+
+			return view('dashboard', ['data' => $data , 'from' => $from , 'page' => $page]);
+	}
 	}
 
 	public function logout()
