@@ -7,7 +7,7 @@ use CodeIgniter\HTTP\Response;
 
 class Home extends BaseController
 {
-	public function getQuote()
+	public function get_quote()
 	{
 		header("Access-Control-Allow-Origin: *");
 		header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
@@ -109,7 +109,7 @@ class Home extends BaseController
 			return redirect()->to('/');
 		}
 		else{
-			$page = filter_var($_GET['page'],FILTER_SANITIZE_URL);
+			$page = filter_var($_GET['page'],FILTER_SANITIZE_NUMBER_INT);
 
 			$from = ceil(($page*10)-10);
 			$from < 0 ? 0 : $from;

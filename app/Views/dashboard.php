@@ -33,13 +33,13 @@
                             </tr>
                         </thead>
                         <tbody id="table-body">
-                            <?php foreach($data as $datas): ?>
+                            <?php foreach($data as $row): ?>
                             <tr>
-                                <th scope="row"><?=$datas->contact_form_id ?></th>
-                                <td><?=$datas->contact_name ?></td>
-                                <td><?=$datas->contact_email ?></td>
-                                <td><?=$datas->contact_message ?></td>
-                                <td><?=$datas->created_at ?></td>
+                                <th scope="row"><?=$row->contact_form_id ?></th>
+                                <td><?=$row->contact_name ?></td>
+                                <td><?=$row->contact_email ?></td>
+                                <td><?=$row->contact_message ?></td>
+                                <td><?=$row->created_at ?></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
