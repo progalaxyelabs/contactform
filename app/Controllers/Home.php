@@ -7,7 +7,7 @@ use CodeIgniter\HTTP\Response;
 
 class Home extends BaseController
 {
-	public function index()
+	public function getQuote()
 	{
 		header("Access-Control-Allow-Origin: *");
 		header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
@@ -62,7 +62,7 @@ class Home extends BaseController
 		}
 	}
 
-	public function signin()
+	public function index()
 	{
 		if (isset($_SESSION['email'])) {
 			return redirect()->to('/home/dashboard?page=1');
@@ -106,28 +106,23 @@ class Home extends BaseController
 	public function dashboard()
 	{
 		if (!isset($_SESSION['email'])) {
-			return redirect()->to('/home/signin');
+			return redirect()->to('/');
 		}
 		else{
 			$page = filter_var($_GET['page'],FILTER_SANITIZE_URL);
 
-			$data = $this->db->query(
-				"select
-					contact_form_id,
-					contact_message,
-					contact_email,
-					contact_name,
-					created_at,
-					last_updated_at
-				from contact_forms;"
-			)->getResult();
-
-			
 			$from = ceil(($page*10)-10);
 			$from < 0 ? 0 : $from;
 			$page=ceil($page*10);
 
-			return view('dashboard', ['data' => $data , 'from' => $from , 'page' => $page]);
+			$sql = "select * from contact_forms limit ?, 10;" ;
+
+			$data = $this->db->query($sql,[$from])->getResult();
+			$cout = $this->db->query("select count(contact_form_id) as num_records from contact_forms;")->getRow();
+
+			$cout =  $cout->num_records;
+
+			return view('dashboard', ['data' => $data , 'cout' => $cout, 'from' => $from , 'page' => $page]);
 	}
 	}
 
@@ -135,6 +130,6 @@ class Home extends BaseController
 	{
 		unset($_SESSION['email']);		
 		
-		return redirect()->to('/home/signin');
+		return redirect()->to('/');
 	}
 }
