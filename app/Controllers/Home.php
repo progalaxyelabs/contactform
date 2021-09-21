@@ -111,9 +111,9 @@ class Home extends BaseController
 		else{
 			$page = filter_var($_GET['page'],FILTER_SANITIZE_NUMBER_INT);
 
-			$from = ceil(($page*10)-10);
+			$from = ($page*10)-10;
 			$from < 0 ? 0 : $from;
-			$page=ceil($page*10);
+			$page=$page*10;
 
 			$sql = "select * from contact_forms limit ?, 10;" ;
 

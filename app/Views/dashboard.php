@@ -59,15 +59,25 @@
                                 <span aria-hidden="true">&lt;</span>
                             </a>
                         </li>
-                        <li class="page-item" id="lower"><a class="page-link" id="lower_anchor"
-                                href="/home/dashboard?page=<?php $lower = $_GET['page']; $lower-=1; echo $lower?>"><?=$lower?></a>
-                        </li>
+                        <?php
+                            $lower = $_GET['page'];
+                            if($lower>1){
+                                $lower-=1;
+                                echo '<li class="page-item" id="lower"><a class="page-link" id="lower_anchor"
+                                href="/home/dashboard?page='.$lower.'">'.$lower.'</a></li>';
+                            }
+                         ?>
                         <li class="page-item"><a class="page-link"
                                 href="/home/dashboard?page=<?$_GET['page']?>"><?=$_GET['page']?></a>
                         </li>
-                        <li class="page-item" id="upper"><a class="page-link" id="upper_anchor"
-                                href="/home/dashboard?page=<?php $upper = $_GET['page']; $upper+=1; echo $upper?>"><?=$upper?></a>
-                        </li>
+                        <?php
+                            $upper = $_GET['page'];
+                            if($upper<$page_num){
+                                $upper+=1;
+                                echo '<li class="page-item" id="upper"><a class="page-link" id="upper_anchor"
+                                href="/home/dashboard?page='.$upper.'">'.$upper.'</a></li>';
+                            }
+                         ?>
                         <li class="page-item">
                             <a class="page-link"
                                 <?php $next = $_GET['page'];if($next == $page_num){ echo "";}else{$next=$next+1;echo "href='/home/dashboard?page=$next'";}?>
@@ -92,21 +102,6 @@
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
-    </script>
-
-    <script>
-    var total = <?=$page_num?>;
-    var lower = document.getElementById('lower');
-    var upper = document.getElementById('upper');
-    let lower_anchor = document.getElementById('lower_anchor');
-    var upper_anchor = document.getElementById('upper_anchor');
-    
-    if (lower_anchor.innerHTML <= 0) {
-        lower.style.display = "none";
-    }
-    if (upper_anchor.innerHTML >= total) {
-        upper.style.display = "none";
-    }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
