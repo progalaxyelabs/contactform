@@ -59,11 +59,15 @@
                                 <span aria-hidden="true">&lt;</span>
                             </a>
                         </li>
-                        <?php for($j=1;$j<=$page_num;$j++): ?>
-                        <li class="page-item" id=page<?=$j?>><a class="page-link"
-                                href="/home/dashboard?page=<?=$j?>"><?=$j?></a>
+                        <li class="page-item" id="lower"><a class="page-link" id="lower_anchor"
+                                href="/home/dashboard?page=<?php $lower = $_GET['page']; $lower-=1; echo $lower?>"><?=$lower?></a>
                         </li>
-                        <?php endfor; ?>
+                        <li class="page-item"><a class="page-link"
+                                href="/home/dashboard?page=<?$_GET['page']?>"><?=$_GET['page']?></a>
+                        </li>
+                        <li class="page-item" id="upper"><a class="page-link" id="upper_anchor"
+                                href="/home/dashboard?page=<?php $upper = $_GET['page']; $upper+=1; echo $upper?>"><?=$upper?></a>
+                        </li>
                         <li class="page-item">
                             <a class="page-link"
                                 <?php $next = $_GET['page'];if($next == $page_num){ echo "";}else{$next=$next+1;echo "href='/home/dashboard?page=$next'";}?>
@@ -87,36 +91,21 @@
         <a style="text-decoration: none;" href="/home/logout">Logout</a>
     </div>
 
-
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
     </script>
 
-    <script type="text/javascript">
-    var total_pages = <?=$page_num?>;
-    var value = <?= $_GET['page'] ?>;
-
-    for (let i = 1; i < (value - 2) && (value - 2); i++) {
-        let temp = document.getElementById('page' + i);
-        let prev_dot = value - 3;
-        console.log("prev=" + prev_dot);
-        console.log('i=' + i);
-        if (i == prev_dot) {
-            let hidden_prev = document.getElementById('page' + (i + 1));
-            hidden_prev.innerHTML = '<a class="page-link" href="/home/dashboard?page=' + (i + 1) + '">.</a>';
-            console.log('working');
-        }
-        temp.style.display = "none";
+    <script>
+    var total = <?=$page_num?>;
+    var lower = document.getElementById('lower');
+    var upper = document.getElementById('upper');
+    let lower_anchor = document.getElementById('lower_anchor');
+    var upper_anchor = document.getElementById('upper_anchor');
+    
+    if (lower_anchor.innerHTML <= 0) {
+        lower.style.display = "none";
     }
-    for (let i = (value + 3); i <= total_pages; i++) {
-        let temp = document.getElementById('page' + i);
-        let next_dot = value + 3;
-        if (i == next_dot) {
-            let hidden_next = document.getElementById('page' + (i - 1));
-            hidden_next.innerHTML = '<a class="page-link" href="/home/dashboard?page=' + (i - 1) + '">.</a>';
-            temp.style.display = "none";
-        } else {
-            temp.style.display = "none";
-        }
+    if (upper_anchor.innerHTML >= total) {
+        upper.style.display = "none";
     }
     </script>
 
