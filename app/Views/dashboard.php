@@ -97,7 +97,7 @@
     </div>
 
     <div class="pagination justify-content-center">
-        <a style="text-decoration: none;" href="/home/logout">Logout</a>
+        <a id="logout_button" href="/home/logout">Logout</a>
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">

@@ -11236,3 +11236,13 @@ table {
   background: rgba(255, 254, 254, 0.801);
   border-radius: 5px;
 }
+#logout_button {
+  text-decoration: none;
+  padding: 3px 10px;
+  background: rgba(255, 254, 254, 0.801);
+  border-radius: 5px;
+}
+#logout_button:hover {
+  background-color: rgb(34, 194, 194);
+  color: white;
+}
