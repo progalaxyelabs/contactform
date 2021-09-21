@@ -6,8 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="/bootstrap.css">
 
 </head>
 
@@ -25,7 +24,7 @@
                     <table style="margin-top:10%;" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th style="border-top-left-radius: 8px;" scope="col">#</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Message</th>
@@ -46,46 +45,46 @@
                     </table>
                 </div>
                 <nav aria-label="Page navigation example">
-                    <ul id="myid" class="pagination justify-content-center">
-                        <li class="page-item">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item" id="myid">
                             <a class="page-link" href="/home/dashboard?page=1" aria-label="first">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        <li class="page-item">
+                        <li class="page-item" id="myid">
                             <a class="page-link"
-                                <?php $prev = $_GET['page'];if($prev == 1){ echo "";}else{$prev=$prev-1;echo "href='/home/dashboard?page=$prev'";}?>
+                                <?php $prev = $get;if($prev == 1){ echo "";}else{$prev=$prev-1;echo "href='/home/dashboard?page=$prev'";}?>
                                 aria-label="Previous">
                                 <span aria-hidden="true">&lt;</span>
                             </a>
                         </li>
                         <?php
-                            $lower = $_GET['page'];
+                            $lower = $get;
                             if($lower>1){
                                 $lower-=1;
-                                echo '<li class="page-item" id="lower"><a class="page-link" id="lower_anchor"
+                                echo '<li class="page-item" id="myid"><a class="page-link" id="lower_anchor"
                                 href="/home/dashboard?page='.$lower.'">'.$lower.'</a></li>';
                             }
                          ?>
-                        <li class="page-item"><a class="page-link"
-                                href="/home/dashboard?page=<?$_GET['page']?>"><?=$_GET['page']?></a>
+                        <li class="page-item active" id="myid"><a class="page-link"
+                                href="/home/dashboard?page=<?=$get?>"><?=$get?></a>
                         </li>
                         <?php
-                            $upper = $_GET['page'];
+                            $upper = $get;
                             if($upper<$page_num){
                                 $upper+=1;
-                                echo '<li class="page-item" id="upper"><a class="page-link" id="upper_anchor"
+                                echo '<li class="page-item" id="myid"><a class="page-link" id="upper_anchor"
                                 href="/home/dashboard?page='.$upper.'">'.$upper.'</a></li>';
                             }
                          ?>
-                        <li class="page-item">
+                        <li class="page-item" id="myid">
                             <a class="page-link"
-                                <?php $next = $_GET['page'];if($next == $page_num){ echo "";}else{$next=$next+1;echo "href='/home/dashboard?page=$next'";}?>
+                                <?php $next = $get;if($next == $page_num){ echo "";}else{$next=$next+1;echo "href='/home/dashboard?page=$next'";}?>
                                 aria-label="Next">
                                 <span aria-hidden="true">&gt;</span>
                             </a>
                         </li>
-                        <li class="page-item">
+                        <li class="page-item" id="myid">
                             <a class="page-link" href="/home/dashboard?page=<?=$page_num?>" aria-label="Last">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>

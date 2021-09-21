@@ -109,20 +109,20 @@ class Home extends BaseController
 			return redirect()->to('/');
 		}
 		else{
-			$page = filter_var($_GET['page'],FILTER_SANITIZE_NUMBER_INT);
+			$get = filter_var($_GET['page'],FILTER_SANITIZE_NUMBER_INT);
 
-			$from = ($page*10)-10;
+			$from = ($get*10)-10;
 			$from < 0 ? 0 : $from;
-			$page=$page*10;
+			$page=$get*10;
 
-			$sql = "select * from contact_forms limit ?, 10;" ;
+			$sql = "select * from contact_forms order by created_at desc limit ?, 10;" ;
 
 			$data = $this->db->query($sql,[$from])->getResult();
 			$cout = $this->db->query("select count(contact_form_id) as num_records from contact_forms;")->getRow();
 
 			$cout =  $cout->num_records;
 
-			return view('dashboard', ['data' => $data , 'cout' => $cout, 'from' => $from , 'page' => $page]);
+			return view('dashboard', ['data' => $data , 'cout' => $cout, 'from' => $from , 'page' => $page, 'get' => $get]);
 	}
 	}
 
